@@ -1,0 +1,32 @@
+import { Leaf, Scale, FileText, HelpCircle } from 'lucide-react';
+
+export const API_URL = import.meta.env.VITE_API_URL || '/api';
+
+export const STATUS_TEXT = {
+  idle: 'FAOL',
+  listening: 'ESHITMOQDA...',
+  thinking: 'TAHLIL QILMOQDA...',
+  speaking: 'JAVOB BERMOQDA',
+};
+
+export const SOCIAL_LINKS = {
+  phone: 'tel:+998712030022',
+  email: 'mailto:info@ecoekspertiza.uz',
+  telegram: 'https://t.me/ecoekspertiza',
+  youtube: 'https://www.youtube.com/channel/UCk1-8z1uI0fWDQRniifg6xw',
+  instagram: 'https://www.instagram.com/ecoekspertiza_uz/',
+  location: "https://www.google.com/maps/search/Toshkent+sh.,+Mirzo+Ulug'bek+t.,+Sayram+5-tor+k.,+15-uy",
+};
+
+export const QUICK_ACTIONS = [
+  { label: 'Ekspertiza', query: 'Ekologik ekspertiza nima va u qanday amalga oshiriladi?', icon: Leaf },
+  { label: 'Qonunlar', query: "Ekologiya bo'yicha asosiy qonunlar va me'yorlar", icon: Scale },
+  { label: 'Hujjatlar', query: 'Ekologik ekspertiza uchun qanday hujjatlar kerak?', icon: FileText },
+  { label: 'Yordam', query: "Markazga qanday murojaat qilsa bo'ladi?", icon: HelpCircle },
+];
+
+export const LOTTIE_URLS = {
+  style1: 'https://lottie.host/0641a64a-425c-406a-9e27-acb7871aad4f/LCAyTKu7tB.lottie',
+  style2: 'https://lottie.host/28305e56-1b8c-41d7-91af-e6115f082a1a/k3QS5HSdgv.lottie',
+  style3: 'https://lottie.host/0641a64a-425c-406a-9e27-acb7871aad4f/LCAyTKu7tB.lottie',
+};
