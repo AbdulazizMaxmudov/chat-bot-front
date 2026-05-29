@@ -2,6 +2,16 @@ import { Leaf, Scale, FileText, HelpCircle } from 'lucide-react';
 
 export const API_URL = import.meta.env.VITE_API_URL || '/api';
 
+export function getWsUrl(wsPath) {
+  const apiUrl = import.meta.env.VITE_API_URL;
+  if (apiUrl) {
+    const wsBase = apiUrl.replace(/^https/, 'wss').replace(/^http/, 'ws');
+    return `${wsBase}${wsPath}`;
+  }
+  const proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+  return `${proto}//${window.location.host}/api${wsPath}`;
+}
+
 export const STATUS_TEXT = {
   idle: 'FAOL',
   listening: 'ESHITMOQDA...',

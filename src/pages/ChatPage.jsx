@@ -9,7 +9,7 @@ import ChatHeader from '../components/ChatHeader';
 import ChatInputBar from '../components/ChatInputBar';
 import MessageBubble from '../components/MessageBubble';
 
-import { API_URL, LOTTIE_URLS } from '../constants';
+import { API_URL, LOTTIE_URLS, getWsUrl } from '../constants';
 
 export default function ChatPage() {
   const [messages, setMessages] = useState([]);
@@ -250,11 +250,7 @@ export default function ChatPage() {
     setIsResponseActive(true);
     setAutoScroll(true);
 
-    const wsProto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const backendHost = import.meta.env.VITE_API_URL
-      ? window.location.host
-      : window.location.host;
-    const wsUrl = `${wsProto}//${backendHost}/api/ws/text-stream`;
+    const wsUrl = getWsUrl('/ws/text-stream');
 
     try {
       const ws = new WebSocket(wsUrl);
@@ -424,8 +420,7 @@ export default function ChatPage() {
       activeSourceRef.current = null;
     }
 
-    const wsProto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = `${wsProto}//${window.location.host}/api/ws/voice-stream`;
+    const wsUrl = getWsUrl('/ws/voice-stream');
 
     try {
       const ws = new WebSocket(wsUrl);

@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import './admin.css';
 
-const ADMIN_API = import.meta.env.DEV ? 'http://localhost:8002' : '';
+const ADMIN_API = import.meta.env.VITE_API_URL
+  ? import.meta.env.VITE_API_URL.replace(/\/api$/, '')
+  : (import.meta.env.DEV ? 'http://localhost:8002' : '');
 
 function fmt(ts) {
   if (!ts) return '—';
