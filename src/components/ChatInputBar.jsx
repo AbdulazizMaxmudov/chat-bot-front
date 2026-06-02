@@ -1,6 +1,7 @@
 import { Mic, ArrowUp, StopCircle, Loader2, Globe, Square, Instagram, Youtube, MapPin } from 'lucide-react';
 import NierVisualizer from './NierVisualizer';
-import { QUICK_ACTIONS, SOCIAL_LINKS } from '../constants';
+import { QUICK_ACTION_ICONS, SOCIAL_LINKS } from '../constants';
+import { i18n } from '../i18n';
 
 const TelegramIcon = ({ size = 18 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
@@ -28,12 +29,7 @@ export default function ChatInputBar({
   onFocus,
   onBlur,
 }) {
-  const STATUS_LABEL = {
-    idle: 'FAOL',
-    listening: 'ESHITMOQDA...',
-    thinking: 'TAHLIL QILMOQDA...',
-    speaking: 'JAVOB BERMOQDA',
-  };
+  const tr = i18n[selectedLang] || i18n.uz;
 
   return (
     <div
@@ -54,7 +50,7 @@ export default function ChatInputBar({
       >
         <div className="px-4 pt-3 pb-1 flex items-center gap-1.5">
           <span className={`text-[11px] leading-none ${isImg ? 'text-white/50' : 'text-gray-400 dark:text-gray-500'}`}>
-            Davlat ekologik ekspertizasi markazi
+            {tr.subtitle}
           </span>
           <span className={`text-[11px] ${isImg ? 'text-white/25' : 'text-gray-300 dark:text-gray-600'}`}>•</span>
           <span
@@ -62,7 +58,7 @@ export default function ChatInputBar({
               avatarState !== 'idle' ? 'text-purple-400' : isImg ? 'text-white/35' : 'text-gray-400 dark:text-gray-500'
             }`}
           >
-            {STATUS_LABEL[avatarState]}
+            {tr.status[avatarState]}
           </span>
         </div>
 
@@ -78,7 +74,7 @@ export default function ChatInputBar({
               }`}
             >
               <StopCircle size={15} className="animate-pulse" />
-              Yozishni to'xtatish
+              {tr.stopRecording}
             </button>
           </div>
         ) : (
@@ -91,7 +87,7 @@ export default function ChatInputBar({
               onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
               onFocus={onFocus}
               onBlur={onBlur}
-              placeholder="Savolingizni yozing..."
+              placeholder={tr.inputPlaceholder}
               className={`w-full px-4 py-3 bg-transparent focus:outline-none text-sm sm:text-base ${
                 isImg ? 'text-white placeholder-white/40' : 'text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-600'
               }`}
@@ -113,7 +109,7 @@ export default function ChatInputBar({
                 {isResponseActive && (
                   <button
                     onClick={stopGeneration}
-                    title="To'xtatish"
+                    title={tr.stopLabel}
                     className={`p-2 rounded-full border transition-colors touch-manipulation ${
                       isImg
                         ? 'border-white/20 text-white/70 hover:bg-white/10'
@@ -125,7 +121,7 @@ export default function ChatInputBar({
                 )}
                 <button
                   onClick={startRecording}
-                  aria-label="Ovoz yozish"
+                  aria-label={tr.micLabel}
                   className={`p-2 rounded-full border transition-colors touch-manipulation ${
                     isImg
                       ? 'border-white/20 text-white/70 hover:bg-white/10'
@@ -137,7 +133,7 @@ export default function ChatInputBar({
                 <button
                   onClick={sendMessage}
                   disabled={!input.trim()}
-                  aria-label="Yuborish"
+                  aria-label={tr.sendLabel}
                   className={`p-2 rounded-full disabled:opacity-30 transition-colors touch-manipulation ${
                     isImg
                       ? 'bg-white text-gray-900 hover:bg-white/90'
@@ -153,23 +149,26 @@ export default function ChatInputBar({
       </div>
 
       <div className="max-w-2xl mx-auto mt-2.5 flex items-center gap-2 flex-wrap justify-center">
-        {QUICK_ACTIONS.map((action) => (
-          <button
-            key={action.label}
-            onClick={() => {
-              setInput(action.query);
-              setTimeout(() => inputRef.current?.focus(), 0);
-            }}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border text-xs transition-colors touch-manipulation ${
-              isImg
-                ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
-                : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1e] text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
-            }`}
-          >
-            <action.icon size={12} />
-            <span>{action.label}</span>
-          </button>
-        ))}
+        {tr.quickActions.map((action, idx) => {
+          const Icon = QUICK_ACTION_ICONS[idx];
+          return (
+            <button
+              key={action.label}
+              onClick={() => {
+                setInput(action.query);
+                setTimeout(() => inputRef.current?.focus(), 0);
+              }}
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border text-xs transition-colors touch-manipulation ${
+                isImg
+                  ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
+                  : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1e] text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+              }`}
+            >
+              <Icon size={12} />
+              <span>{action.label}</span>
+            </button>
+          );
+        })}
       </div>
 
       <div className="max-w-2xl mx-auto mt-2 flex items-center justify-between px-1">
@@ -195,7 +194,7 @@ export default function ChatInputBar({
             </a>
           ))}
         </div>
-        <p className={`text-[10px] ${isImg ? 'text-white/30' : 'text-gray-400 dark:text-gray-600'}`}>AI xato qilishi mumkin</p>
+        <p className={`text-[10px] ${isImg ? 'text-white/30' : 'text-gray-400 dark:text-gray-600'}`}>{tr.aiDisclaimer}</p>
       </div>
     </div>
   );

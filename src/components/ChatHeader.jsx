@@ -1,6 +1,6 @@
 import { Bot, MessageSquare, Volume2, VolumeX, Menu, X, Sun, Moon, Palette } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { STATUS_TEXT } from '../constants';
+import { i18n } from '../i18n';
 
 export default function ChatHeader({
   isImg,
@@ -11,6 +11,7 @@ export default function ChatHeader({
   soundEnabled,
   isDark,
   selectedStyle,
+  selectedLang,
   menuRef,
   setIsMenuOpen,
   setIsDark,
@@ -18,6 +19,7 @@ export default function ChatHeader({
   toggleSound,
   setSelectedStyle,
 }) {
+  const tr = i18n[selectedLang] || i18n.uz;
   return (
     <header
       className={`absolute top-0 left-0 right-0 z-20 backdrop-blur-sm border-b px-4 sm:px-6 py-3.5 flex items-center gap-3 ${
@@ -41,7 +43,7 @@ export default function ChatHeader({
           ECO EXPERT AI
         </p>
         <p className={`text-[13px] mt-1 truncate ${isImg ? 'text-white/60' : 'text-gray-400 dark:text-gray-500'}`}>
-          Davlat ekologik ekspertizasi markazi
+          {tr.subtitle}
         </p>
       </div>
 
@@ -68,7 +70,7 @@ export default function ChatHeader({
                 : 'bg-gray-300 dark:bg-gray-600'
             }`}
           />
-          <span className="text-[10px] font-medium tracking-wide">{STATUS_TEXT[avatarState]}</span>
+          <span className="text-[10px] font-medium tracking-wide">{tr.status[avatarState]}</span>
         </div>
       )}
 
@@ -108,7 +110,7 @@ export default function ChatHeader({
                 >
                   <div className="flex items-center gap-2.5">
                     {isDark ? <Sun size={15} className="text-amber-400" /> : <Moon size={15} className="text-gray-500" />}
-                    <span>{isDark ? "Yorug' rejim" : "Qorong'u rejim"}</span>
+                    <span>{isDark ? tr.lightMode : tr.darkMode}</span>
                   </div>
                   <div className={`w-8 h-4 rounded-full flex-shrink-0 transition-colors ${isDark ? 'bg-gray-900 dark:bg-white' : 'bg-gray-200'}`}>
                     <div className={`w-3 h-3 rounded-full bg-white dark:bg-gray-900 mt-0.5 transition-transform ${isDark ? 'translate-x-4' : 'translate-x-0.5'}`} />
@@ -128,7 +130,7 @@ export default function ChatHeader({
                   ) : (
                     <MessageSquare size={15} className={isImg ? 'text-white/60' : 'text-gray-500 dark:text-gray-400'} />
                   )}
-                  <span>{showRobot ? 'Avatar yoqilgan' : "Avatar o'chirilgan"}</span>
+                  <span>{showRobot ? tr.avatarOn : tr.avatarOff}</span>
                 </div>
                 <div
                   className={`w-8 h-4 rounded-full flex-shrink-0 transition-colors ${
@@ -157,7 +159,7 @@ export default function ChatHeader({
                   ) : (
                     <VolumeX size={15} className={isImg ? 'text-white/60' : 'text-gray-500 dark:text-gray-400'} />
                   )}
-                  <span>{soundEnabled ? 'Ovoz yoqilgan' : "Ovoz o'chirilgan"}</span>
+                  <span>{soundEnabled ? tr.soundOn : tr.soundOff}</span>
                 </div>
                 <div
                   className={`w-8 h-4 rounded-full flex-shrink-0 transition-colors ${
@@ -179,7 +181,7 @@ export default function ChatHeader({
               <div className="px-3 py-1">
                 <div className={`flex items-center gap-2 mb-1.5 ${isImg ? 'text-white/70' : 'text-gray-500 dark:text-gray-400'}`}>
                   <Palette size={13} />
-                  <span className="text-xs font-medium">Dizayn stili</span>
+                  <span className="text-xs font-medium">{tr.designStyle}</span>
                 </div>
                 <select
                   value={selectedStyle}

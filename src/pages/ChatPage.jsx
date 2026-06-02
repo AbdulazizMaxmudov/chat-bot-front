@@ -10,6 +10,7 @@ import ChatInputBar from '../components/ChatInputBar';
 import MessageBubble from '../components/MessageBubble';
 
 import { API_URL, LOTTIE_URLS, getWsUrl } from '../constants';
+import { i18n } from '../i18n';
 
 export default function ChatPage() {
   const [messages, setMessages] = useState([]);
@@ -57,6 +58,7 @@ export default function ChatPage() {
   const currentAudioUrlRef = useRef(null);
   const activeTtsRequestRef = useRef(null);
   const wsRef = useRef(null);
+  const selectedLangRef = useRef('uz');
   const audioContextRef = useRef(null);
   const audioQueueRef = useRef([]);
   const isPlayingStreamRef = useRef(false);
@@ -170,6 +172,7 @@ export default function ChatPage() {
   }, [messages, autoScroll]);
 
   useEffect(() => { soundEnabledRef.current = soundEnabled; }, [soundEnabled]);
+  useEffect(() => { selectedLangRef.current = selectedLang; }, [selectedLang]);
 
   const handleScroll = (e) => {
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
@@ -211,7 +214,7 @@ export default function ChatPage() {
         setLoadingStatus('SERVER_TIMEOUT');
         await sleep(400);
         setIsLoading(false);
-        setMessages([{ role: 'ai', text: "Server hozircha javob bermayapti. Birozdan so'ng sahifani yangilang yoki qayta urinib ko'ring." }]);
+        setMessages([{ role: 'ai', text: i18n[selectedLangRef.current].serverError }]);
         setAvatarState('idle');
         return;
       }
@@ -558,10 +561,10 @@ export default function ChatPage() {
               >
                 <div className={isImg ? 'inline-block bg-black/35 backdrop-blur-sm rounded-2xl px-5 py-3' : ''}>
                   <p className={`text-sm sm:text-base mb-1 ${isImg ? 'text-white/80' : 'text-gray-400 dark:text-gray-500'}`}>
-                    Ekologiya bo'yicha maslahat
+                    {i18n[selectedLang].welcomeSubtitle}
                   </p>
                   <h1 className={`text-2xl sm:text-3xl font-semibold leading-snug ${isImg ? 'text-white' : 'text-gray-900 dark:text-white'}`}>
-                    Savolingizni <span className="text-purple-300">bering</span>
+                    {i18n[selectedLang].welcomeTitle} <span className="text-purple-300">{i18n[selectedLang].welcomeTitleHighlight}</span>
                   </h1>
                 </div>
               </motion.div>
@@ -580,6 +583,7 @@ export default function ChatPage() {
           soundEnabled={soundEnabled}
           isDark={isDark}
           selectedStyle={selectedStyle}
+          selectedLang={selectedLang}
           menuRef={menuRef}
           setIsMenuOpen={setIsMenuOpen}
           setIsDark={setIsDark}
