@@ -98,7 +98,7 @@ export default function ChatInputBar({
             />
             <div className="flex items-center justify-between px-3 pb-3">
               <button
-                onClick={() => setSelectedLang((l) => (l === 'uz' ? 'ru' : 'uz'))}
+                onClick={() => setSelectedLang((l) => (l === 'uz' ? 'ru' : l === 'ru' ? 'en' : 'uz'))}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs transition-colors touch-manipulation ${
                   isImg
                     ? 'border-white/20 text-white/70 hover:bg-white/10'
@@ -106,7 +106,7 @@ export default function ChatInputBar({
                 }`}
               >
                 <Globe size={12} />
-                <span className="font-medium">{selectedLang === 'uz' ? "O'zbekcha" : 'Русский'}</span>
+                <span className="font-medium">{selectedLang === 'uz' ? "O'zbekcha" : selectedLang === 'ru' ? 'Русский' : 'English'}</span>
               </button>
 
               <div className="flex items-center gap-1.5">
